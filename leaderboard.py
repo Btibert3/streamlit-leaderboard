@@ -39,10 +39,11 @@ def get_leaderboard_dataframe(csv_file = 'leaderboard.csv', greater_is_better = 
 # Title
 st.title("Simple Competition Leaderboard")
 
-# Username Input
-username = st.text_input("Username", value = "billy", max_chars= 20,)
+# Username Input - commenting out default behavior of billy 
+username = st.text_input("Team/Username", value = "", max_chars= 20,)
 username = username.replace(",","") # for storing csv purpose
-st.header(f"Hi {username} !!!")
+if len(username) > 0:
+    st.header(f"Hi {username} !!!")
 
 # Check if master data has been registered:
 master_files = os.listdir('master')
@@ -78,7 +79,7 @@ else:
         if uploaded_file is None:
             st.text("UPLOAD FIRST")
         else:
-            # save submission
+            # save submission - MODIFIED = ignores index, id and label columns
             df_submission = pd.read_csv(uploaded_file)
             datetime_now = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename_submission = f"submission/sub_{username}__{datetime_now}.csv"
@@ -101,7 +102,7 @@ else:
         st.write(df_leaderboard)
 
 # To register master data
-if username == 'admin': # CHANGE HERE AS YOU WANT
+if username == 'bodhiaria': # CHANGE HERE AS YOU WANT
     change_master_key = st.checkbox('Change Master Key')
 
     if change_master_key:
